@@ -17,14 +17,14 @@ public class GroupCreationTest {
         wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         wd.get("http://127.0.0.1/addressbook/");
-       login();
+       login("admin","secret");
     }
 
     @Test
     public void testGroupCreation() {
-
         gotoGroupPage();
-        fillGroupForm();
+        fillGroupForm(new GroupData("new group "+Math.random(), "new group HEADER HEADER HEADER "+Math.random(),
+                "new group FOOTER FOOTER FOOTER "+Math.random()));
         submitGroupForm();
         returnGroupPage();
     }
@@ -35,9 +35,9 @@ public class GroupCreationTest {
         wd=null;
     }
 
-    public void login() {
-        wd.findElementByCssSelector("form#LoginForm input[name = 'user']").sendKeys("admin");
-        wd.findElementByCssSelector("form#LoginForm input[name = 'pass']").sendKeys("secret");
+    public void login(String user, String password ) {
+        wd.findElementByCssSelector("form#LoginForm input[name = 'user']").sendKeys(user);
+        wd.findElementByCssSelector("form#LoginForm input[name = 'pass']").sendKeys(password);
         wd.findElementByCssSelector("form#LoginForm input[value = 'Login']").click();
     }
 
@@ -45,14 +45,14 @@ public class GroupCreationTest {
         wd.findElementByCssSelector("div#nav a[href = 'group.php']").click();
     }
 
-    public void fillGroupForm() {
+    public void fillGroupForm(GroupData group) {
         wd.findElementByCssSelector("div#container div#content input[name = 'new']").click();
         wd.findElementByCssSelector("div#container div#content input[name = 'group_name']")
-                .sendKeys("new group 23.01.2020");
+                .sendKeys(group.getName());
         wd.findElementByCssSelector("div#container div#content textarea[ name= 'group_header']")
-                .sendKeys("new group HEADER HEADER HEADER 23.01.2020");
+                .sendKeys(group.getHeader());
         wd.findElementByCssSelector("div#container div#content textarea[ name= 'group_footer']")
-                .sendKeys("new group FOOTER FOOTER FOOTER 23.01.2020");
+                .sendKeys(group.getFooter());
     }
 
     public void submitGroupForm() {
