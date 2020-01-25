@@ -1,39 +1,34 @@
 package pl.stqa.pft.addressbook.appmanager;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import pl.stqa.pft.addressbook.model.GroupData;
 
-public class GroupHelper {
-
-    FirefoxDriver wd;
+public class GroupHelper extends HelperBase {
 
     public GroupHelper(FirefoxDriver wd) {
-        this.wd = wd;
+        super(wd);
     }
-
 
 
     public void fillGroupForm(GroupData group) {
-        wd.findElementByCssSelector("div#container div#content input[name = 'new']").click();
-        wd.findElementByCssSelector("div#container div#content input[name = 'group_name']")
-                .sendKeys(group.getName());
-        wd.findElementByCssSelector("div#container div#content textarea[ name= 'group_header']")
-                .sendKeys(group.getHeader());
-        wd.findElementByCssSelector("div#container div#content textarea[ name= 'group_footer']")
-                .sendKeys(group.getFooter());
+        click(By.cssSelector("div#container div#content input[name = 'new']"));
+        type(By.cssSelector("div#container div#content input[name = 'group_name']"), group.getName());
+        type(By.cssSelector("div#container div#content textarea[ name= 'group_header']"), group.getHeader());
+        type(By.cssSelector("div#container div#content textarea[ name= 'group_footer']"), group.getFooter());
     }
 
     public void submitGroupForm() {
-        wd.findElementByCssSelector("div#container div#content input[name = 'submit']").click();
+        click(By.cssSelector("div#container div#content input[name = 'submit']"));
     }
 
     public void selectGroup() {
-        wd.findElementByCssSelector("div#container div#content input[name = 'selected[]']");
+        click(By.cssSelector("div#container div#content input[name = 'selected[]']"));
     }
 
     public void deleteGroup() {
-        wd.findElementByCssSelector("div#container div#content input[name = 'delete'][type = 'submit']");
+        click(By.cssSelector("div#container div#content input[name = 'delete'][type = 'submit']"));
     }
+
 
 }

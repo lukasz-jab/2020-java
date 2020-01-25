@@ -1,7 +1,6 @@
 package pl.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
-import pl.stqa.pft.addressbook.model.GroupData;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,14 +34,13 @@ public class ApplicationManager {
         return groupHelper;
     }
 
-    public  SessionHelper getSessionHelper() {
+    public SessionHelper getSessionHelper() {
         return sessionHelper;
     }
 
     public NavigationHelper getNavigationHelper() {
         return navigationHelper;
     }
-
 
 
 }
