@@ -9,11 +9,11 @@ public class GroupCreationTests extends TestBase {
 
     @Test
     public void testGroupCreation() {
-        app.gotoGroupPage();
-        app.fillGroupForm(new GroupData("new group " + Math.random(), "new group HEADER HEADER HEADER " + Math.random(),
+        app.getNavigationHelper().gotoGroupPage();
+        app.getGroupHelper().fillGroupForm(new GroupData("new group " + Math.random(), "new group HEADER HEADER HEADER " + Math.random(),
                 "new group FOOTER FOOTER FOOTER " + Math.random()));
-        app.submitGroupForm();
-        app.returnGroupPage();
+        app.getGroupHelper().submitGroupForm();
+        app.getNavigationHelper().returnGroupPage();
     }
 
 
