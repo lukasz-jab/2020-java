@@ -3,11 +3,10 @@ package pl.stqa.pft.addressbook;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-public class GroupCreationTest {
+public class TestBase {
 
     FirefoxDriver wd;
 
@@ -17,25 +16,17 @@ public class GroupCreationTest {
         wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         wd.get("http://127.0.0.1/addressbook/");
-       login("admin","secret");
-    }
-
-    @Test
-    public void testGroupCreation() {
-        gotoGroupPage();
-        fillGroupForm(new GroupData("new group "+Math.random(), "new group HEADER HEADER HEADER "+Math.random(),
-                "new group FOOTER FOOTER FOOTER "+Math.random()));
-        submitGroupForm();
-        returnGroupPage();
+        login("admin", "secret");
     }
 
     @AfterTest
     public void tearDown() {
         wd.quit();
-        wd=null;
+        wd = null;
     }
 
-    public void login(String user, String password ) {
+
+    public void login(String user, String password) {
         wd.findElementByCssSelector("form#LoginForm input[name = 'user']").sendKeys(user);
         wd.findElementByCssSelector("form#LoginForm input[name = 'pass']").sendKeys(password);
         wd.findElementByCssSelector("form#LoginForm input[value = 'Login']").click();
@@ -61,6 +52,14 @@ public class GroupCreationTest {
 
     public void returnGroupPage() {
         wd.findElementByCssSelector("div#nav a[href = 'group.php']").click();
+    }
+
+    public void selectGroup() {
+        wd.findElementByCssSelector("div#container div#content input[name = 'selected[]']");
+    }
+
+    public void deleteGroup() {
+        wd.findElementByCssSelector("div#container div#content input[name = 'delete'][type = 'submit']");
     }
 
 
