@@ -1,17 +1,15 @@
-package pl.stqa.pft.addressbook;
+package pl.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import pl.stqa.pft.addressbook.model.GroupData;
 
 import java.util.concurrent.TimeUnit;
 
-public class TestBase {
+public class ApplicationManager {
 
     FirefoxDriver wd;
 
-    @BeforeTest
-    public void setUp() {
+    public void init() {
         wd = new FirefoxDriver();
         wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
@@ -19,12 +17,10 @@ public class TestBase {
         login("admin", "secret");
     }
 
-    @AfterTest
-    public void tearDown() {
+    public void stop() {
         wd.quit();
         wd = null;
     }
-
 
     public void login(String user, String password) {
         wd.findElementByCssSelector("form#LoginForm input[name = 'user']").sendKeys(user);
@@ -61,6 +57,4 @@ public class TestBase {
     public void deleteGroup() {
         wd.findElementByCssSelector("div#container div#content input[name = 'delete'][type = 'submit']");
     }
-
-
 }
