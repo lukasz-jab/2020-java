@@ -1,5 +1,6 @@
 package contact.contactdata;
 
+import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -8,16 +9,22 @@ import java.util.Objects;
 
 @XStreamAlias("ContactData")
 public class ContactData {
-
+    @Expose
     String firstname;
+    @Expose
     String lastname;
+    @Expose
     String address;
+    @Expose
     String home;
+    @Expose
     String work;
+    @Expose
     private String group;
 
     @XStreamOmitField
     private int id = Integer.MAX_VALUE;
+    @Expose
     private File photo;
 
     public String getFirstname() {

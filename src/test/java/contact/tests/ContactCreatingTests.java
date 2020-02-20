@@ -1,5 +1,8 @@
 package contact.tests;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
 import contact.contactdata.ContactData;
 import contact.contactdata.Contacts;
@@ -8,7 +11,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +25,21 @@ public class ContactCreatingTests extends TestBase {
 
 
     @DataProvider
+    public Iterator<Object[]> jsonValidContact() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.json")));
+        String json = "";
+        String line = reader.readLine();
+        while(line != null) {
+            json += line;
+            line = reader.readLine();
+        }
+        Gson gson = new Gson();
+        List<ContactData> list = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
+        return list.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
+
+    }
+
+    @DataProvider
     public Iterator<Object[]> xmlValidContact() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.xml")));
         String xml = "";
@@ -28,13 +48,12 @@ public class ContactCreatingTests extends TestBase {
             xml +=line;
            line = reader.readLine();
         }
-        System.out.println(xml );
         XStream xstream = new XStream();
         xstream.processAnnotations(ContactData.class);
         List<ContactData> contacts = (List<ContactData>)xstream.fromXML(xml);
         return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
 
-         }
+    }
 
     @DataProvider
     public Iterator<Object[]> validContact() throws IOException {
@@ -53,7 +72,7 @@ public class ContactCreatingTests extends TestBase {
         return list.iterator();
     }
 
-    @Test(enabled = true, dataProvider = "xmlValidContact")
+    @Test(enabled = true, dataProvider = "jsonValidContact")
     public void testContactCreating(ContactData contact) {
 
         app.goTo().mainPage();
