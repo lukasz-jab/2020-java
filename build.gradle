@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group '2020-contac-groupId'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.testng:testng:7.1.0'
+    testCompile 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    testCompile 'org.hamcrest:hamcrest:2.2'
+    testCompile 'com.beust:jcommander:1.78'
+    testCompile 'com.thoughtworks.xstream:xstream:1.4.11.1'
+
+}
