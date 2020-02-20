@@ -1,8 +1,12 @@
 package contact.contactdata;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.io.File;
 import java.util.Objects;
 
+@XStreamAlias("ContactData")
 public class ContactData {
 
     String firstname;
@@ -11,6 +15,8 @@ public class ContactData {
     String home;
     String work;
     private String group;
+
+    @XStreamOmitField
     private int id = Integer.MAX_VALUE;
     private File photo;
 

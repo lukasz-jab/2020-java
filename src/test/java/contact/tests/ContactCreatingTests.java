@@ -21,25 +21,20 @@ public class ContactCreatingTests extends TestBase {
 
     @DataProvider
     public Iterator<Object[]> xmlValidContact() throws IOException {
-        XStream xstream = new XStream();
-        List<ContactData> contacts = new ArrayList<>();
-        List<Object[]> list = new ArrayList<Object[]>();
         BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.xml")));
         String xml = "";
         String line = reader.readLine();
         while(line != null) {
             xml +=line;
-            System.out.println(xml);
-            reader.readLine();
+           line = reader.readLine();
         }
-        System.out.println("już po " + xml);
-        contacts = (List<ContactData>)xstream.fromXML(xml);
-        return contacts.stream().map((contact) -> new Object[]{contact}).collect(Collectors.toList()).iterator();
+        System.out.println(xml );
+        XStream xstream = new XStream();
+        xstream.processAnnotations(ContactData.class);
+        List<ContactData> contacts = (List<ContactData>)xstream.fromXML(xml);
+        return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
 
-
-
-
-    }
+         }
 
     @DataProvider
     public Iterator<Object[]> validContact() throws IOException {
@@ -65,12 +60,6 @@ public class ContactCreatingTests extends TestBase {
         Contacts before = app.contact().all();
 
         app.goTo().contactPage();
-/*
-        ContactData contact = new ContactData().withFirstname(firstname + Math.random()).withLastname(lastname + Math.random()).
-                withAddress("new ADDRESS ADDRESS ADDRESS " + Math.random()).withHome("+ " + Math.random())
-                .withPhoto(new File (photo))
-                .withWork("() " + Math.random()).withGroup("testgroup");
-*/
         app.contact().create(contact);
         app.goTo().mainPage();
 

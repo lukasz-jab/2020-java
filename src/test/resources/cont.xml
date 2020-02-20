@@ -1,32 +1,29 @@
 <list>
   <ContactData>
-    <firstname> new Firstname 0.4169145721295967</firstname>
-    <lastname>new Lastname 0.3095227441886189</lastname>
-    <address>new ADDRESS ADDRESS ADDRESS 0.06338971827193929</address>
-    <home>0.3970546515390192</home>
-    <work>0.4545313880781211</work>
+    <firstname> new Firstname 0.7225710838680677</firstname>
+    <lastname>new Lastname 0.6313097563004728</lastname>
+    <address>new ADDRESS ADDRESS ADDRESS 0.010505322830238528</address>
+    <home>0.04202085011384282</home>
+    <work>0.4542472609501709</work>
     <group>[none]</group>
-    <id>2147483647</id>
     <photo>src/test/resources/phot.png</photo>
   </ContactData>
   <ContactData>
-    <firstname> new Firstname 0.11166502850091731</firstname>
-    <lastname>new Lastname 0.9429792138425164</lastname>
-    <address>new ADDRESS ADDRESS ADDRESS 0.12607598839596412</address>
-    <home>0.32206730281378193</home>
-    <work>0.21426472472739755</work>
+    <firstname> new Firstname 0.18518359634071924</firstname>
+    <lastname>new Lastname 0.5303210257369753</lastname>
+    <address>new ADDRESS ADDRESS ADDRESS 0.19241660499890867</address>
+    <home>0.1071894726141579</home>
+    <work>0.0257991854842885</work>
     <group>[none]</group>
-    <id>2147483647</id>
     <photo>src/test/resources/phot.png</photo>
   </ContactData>
   <ContactData>
-    <firstname> new Firstname 0.19579630060013975</firstname>
-    <lastname>new Lastname 0.16209988357608107</lastname>
-    <address>new ADDRESS ADDRESS ADDRESS 0.05676436460060463</address>
-    <home>0.8581278656356592</home>
-    <work>0.683200101773913</work>
+    <firstname> new Firstname 0.6221299241216068</firstname>
+    <lastname>new Lastname 0.5296348564242039</lastname>
+    <address>new ADDRESS ADDRESS ADDRESS 0.19288765486326376</address>
+    <home>0.008354870602095832</home>
+    <work>0.9867867125411691</work>
     <group>[none]</group>
-    <id>2147483647</id>
     <photo>src/test/resources/phot.png</photo>
   </ContactData>
 </list>

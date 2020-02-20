@@ -47,7 +47,7 @@ public class ContactDataGenerator {
 
     private void saveAsXml(List<ContactData> contacts, File file) throws IOException {
         XStream xstream = new XStream();
-        xstream.alias("ContactData", ContactData.class);
+        xstream.processAnnotations(ContactData.class);
 
         Writer writer = new FileWriter(file);
 
