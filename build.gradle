@@ -17,5 +17,6 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest:2.2'
     testCompile 'com.beust:jcommander:1.78'
     testCompile 'com.thoughtworks.xstream:xstream:1.4.11.1'
+    testCompile 'com.google.code.gson:gson:2.8.6'
 
 }

@@ -26,50 +26,53 @@ public class ContactCreatingTests extends TestBase {
 
     @DataProvider
     public Iterator<Object[]> jsonValidContact() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.json")));
-        String json = "";
-        String line = reader.readLine();
-        while(line != null) {
-            json += line;
-            line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.json")))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<ContactData> list = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+            }.getType());
+            return list.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
         }
-        Gson gson = new Gson();
-        List<ContactData> list = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
-        return list.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
 
     }
 
     @DataProvider
     public Iterator<Object[]> xmlValidContact() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.xml")));
-        String xml = "";
-        String line = reader.readLine();
-        while(line != null) {
-            xml +=line;
-           line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.xml")))) {
+            String xml = "";
+            String line = reader.readLine();
+            while (line != null) {
+                xml += line;
+                line = reader.readLine();
+            }
+            XStream xstream = new XStream();
+            xstream.processAnnotations(ContactData.class);
+            List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
+            return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
         }
-        XStream xstream = new XStream();
-        xstream.processAnnotations(ContactData.class);
-        List<ContactData> contacts = (List<ContactData>)xstream.fromXML(xml);
-        return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
-
     }
 
     @DataProvider
     public Iterator<Object[]> validContact() throws IOException {
         List<Object[]> list = new ArrayList<Object[]>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.csv")));
-        String line = reader.readLine();
-        while(line != null) {
-            String[] split = line.split(",");
-            list.add(new Object[]{new ContactData().withFirstname(split[0] + Math.random()).withLastname(split[1] + Math.random()).
-                    withAddress(split[2] + Math.random()).withHome(split[3] + Math.random())
-                    .withPhoto(new File (split[6]))
-                    .withWork(split[4]  + Math.random()).withGroup(split[5])});
-            line = reader.readLine();
-        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/cont.csv")))) {
+            String line = reader.readLine();
+            while (line != null) {
+                String[] split = line.split(",");
+                list.add(new Object[]{new ContactData().withFirstname(split[0] + Math.random()).withLastname(split[1] + Math.random()).
+                        withAddress(split[2] + Math.random()).withHome(split[3] + Math.random())
+                        .withPhoto(new File(split[6]))
+                        .withWork(split[4] + Math.random()).withGroup(split[5])});
+                line = reader.readLine();
+            }
 
-        return list.iterator();
+            return list.iterator();
+        }
     }
 
     @Test(enabled = true, dataProvider = "jsonValidContact")

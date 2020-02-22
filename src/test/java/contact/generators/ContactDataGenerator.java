@@ -52,18 +52,20 @@ public class ContactDataGenerator {
     private void saveAsXml(List<ContactData> contacts, File file) throws IOException {
         XStream xstream = new XStream();
         xstream.processAnnotations(ContactData.class);
-        Writer writer = new FileWriter(file);
-        String xml = xstream.toXML(contacts);
-        writer.write(xml);
-        writer.close();
+        try (Writer writer = new FileWriter(file)) {
+            String xml = xstream.toXML(contacts);
+            writer.write(xml);
+        }
     }
 
     private void saveAsJson(List<ContactData> contacts, File file) throws IOException {
-        Gson gson = new Gson().newBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        //newBulder omnit type File ?
+        //Gson gson = new Gson().newBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new Gson();
         String json = gson.toJson(contacts);
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        try (Writer writer = new FileWriter(file)) {
+             writer.write(json);
+        }
     }
 
     public static List<ContactData> generateContacts(int count) {
@@ -81,13 +83,13 @@ public class ContactDataGenerator {
     }
 
     public static void saveAsCsv(List<ContactData> contacts, File file) throws IOException {
-            Writer writer = new FileWriter(file);
-            for (ContactData contact : contacts) {
-                writer.write(contact.getFirstname() + "," + contact.getLastname() + "," + contact.getAddress()
-                        + "," + contact.getHome() + "," + contact.getWork() + "," + contact.getGroup() + "," + contact.getPhoto());
-                writer.write(String.format("%s\n", ""));
+            try (Writer writer = new FileWriter(file)) {
+                for (ContactData contact : contacts) {
+                    writer.write(contact.getFirstname() + "," + contact.getLastname() + "," + contact.getAddress()
+                            + "," + contact.getHome() + "," + contact.getWork() + "," + contact.getGroup() + "," + contact.getPhoto());
+                    writer.write(String.format("%s\n", ""));
+                }
             }
-            writer.close();
 
     }
 }
