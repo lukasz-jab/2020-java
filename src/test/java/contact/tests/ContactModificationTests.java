@@ -5,6 +5,8 @@ import contact.contactdata.Contacts;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -31,7 +33,8 @@ public class ContactModificationTests extends TestBase {
         Contacts before = app.contact().all();
         ContactData modyfiedContact = before.iterator().next();
         ContactData contact = new ContactData().withId(modyfiedContact.getId()).withFirstname("Modifying Name " + Math.random())
-                .withLastname("Modifying Lastname " + Math.random()).withAddress("Modifying ADDRESS ADDRESS ADDRESS " + Math.random()).withHome("" + Math.random()).withGroup("[none]");
+                .withLastname("Modifying Lastname " + Math.random()).withAddress("Modifying ADDRESS ADDRESS ADDRESS " + Math.random())
+                .withHome("" + Math.random()).withGroup("[none]").withPhoto(new File("src/test/resources/phot.png"));
 
         app.contact().modify(modyfiedContact, contact);
 
