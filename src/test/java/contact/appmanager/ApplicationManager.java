@@ -5,7 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.BrowserType;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +21,7 @@ public class ApplicationManager {
     private ContactHelper contactHelper;
     private NavigationHelper navigationHelper;
     private SessionHelper sessionHelper;
+    private DbHelper dbHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -27,8 +30,11 @@ public class ApplicationManager {
 
     public void init() throws IOException {
 
-        String target = System.getProperty("target","local");
-        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target) )));
+        String target = System.getProperty("target", "local");
+        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+
+        dbHelper = new DbHelper();
+
         if (browser.equals(BrowserType.FIREFOX)) {
             wd = new FirefoxDriver();
         }
@@ -36,14 +42,13 @@ public class ApplicationManager {
             wd = new ChromeDriver();
         }
         wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        wd.get(properties.getProperty("web.baseUrl","http://127.0.0.1/addressbook/"));
+        wd.get(properties.getProperty("web.baseUrl", "http://127.0.0.1/addressbook/"));
         contactHelper = new ContactHelper(wd);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
         // helperBase = new HelperBase(wd);
-        sessionHelper.login(properties.getProperty("web.adminLogin","admin"),
+        sessionHelper.login(properties.getProperty("web.adminLogin", "admin"),
                 properties.getProperty("web.adminPass", "secret"));
-
 
     }
 
@@ -63,5 +68,7 @@ public class ApplicationManager {
     public SessionHelper getSessionHelper() {
         return sessionHelper;
     }
+
+    public DbHelper db() {return dbHelper;}
 
 }
