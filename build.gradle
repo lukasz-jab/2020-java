@@ -20,6 +20,7 @@ dependencies {
     testCompile 'com.google.code.gson:gson:2.8.6'
     testCompile 'ch.qos.logback:logback-classic:1.3.0-alpha5'
     testCompile 'mysql:mysql-connector-java:8.0.19'
+    testCompile 'org.hibernate:hibernate-core:5.4.10.Final'
 
 }
 
