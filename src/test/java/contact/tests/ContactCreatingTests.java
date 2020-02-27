@@ -2,7 +2,6 @@ package contact.tests;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
 import contact.contactdata.ContactData;
 import contact.contactdata.Contacts;
@@ -10,10 +9,11 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.*;
-import java.lang.reflect.Type;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +22,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreatingTests extends TestBase {
-
 
     @DataProvider
     public Iterator<Object[]> jsonValidContact() throws IOException {
@@ -79,55 +78,56 @@ public class ContactCreatingTests extends TestBase {
     public void testContactCreating(ContactData contact) {
 
         app.goTo().mainPage();
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
 
         app.goTo().contactPage();
         app.contact().create(contact);
         app.goTo().mainPage();
 
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         Assert.assertEquals(after.size(), before.size() + 1);
 
         contact.withId(after.stream().mapToInt((c1) -> (c1.getId())).max().getAsInt());
         before.add(contact);
 
         assertThat(after, equalTo(before.withAdded(contact)));
+
     }
 
-        @Test(enabled = false)
-        public void testBadContactCreating() {
+    @Test(enabled = false)
+    public void testBadContactCreating() {
 
-            app.goTo().mainPage();
-            Contacts before = app.contact().all();
+        app.goTo().mainPage();
+        Contacts before = app.db().contacts();
 
-            File photo = new File("src/test/resources/phot.png");
-            app.goTo().contactPage();
-            ContactData contact = new ContactData().withFirstname(" ' " + Math.random()).withLastname("new Lastname " + Math.random()).
-                    withAddress("new ADDRESS ADDRESS ADDRESS " + Math.random()).withHome("" + Math.random())
-                    .withPhoto(photo)
-                    .withWork("" + Math.random()).withGroup("[none]");
-            app.contact().create(contact);
-            app.goTo().mainPage();
+        File photo = new File("src/test/resources/phot.png");
+        app.goTo().contactPage();
+        ContactData contact = new ContactData().withFirstname(" ' " + Math.random()).withLastname("new Lastname " + Math.random()).
+                withAddress("new ADDRESS ADDRESS ADDRESS " + Math.random()).withHome("" + Math.random())
+                .withPhoto(photo)
+                .withWork("" + Math.random()).withGroup("[none]");
+        app.contact().create(contact);
+        app.goTo().mainPage();
 
-            Contacts after = app.contact().all();
-            Assert.assertEquals(after.size(), before.size());
+        Contacts after = app.db().contacts();
+        Assert.assertEquals(after.size(), before.size());
 
-            assertThat(after, equalTo(before));
+        assertThat(after, equalTo(before));
 
-        }
+    }
 
-        @Test(enabled = false)
-        public void testCurrentDir() throws IOException {
-        File currentDir = new File ("src/test/resources/phot.png");
-            System.out.println(currentDir.exists());
-            System.out.println(currentDir.canExecute());
-            System.out.println(currentDir.canRead());
-            System.out.println(currentDir.canWrite());
-            System.out.println(currentDir.getFreeSpace());
-            System.out.println(currentDir.getTotalSpace());
-            System.out.println(currentDir.getAbsolutePath());
-            System.out.println(currentDir.getCanonicalPath());
-        }
+    @Test(enabled = false)
+    public void testCurrentDir() throws IOException {
+        File currentDir = new File("src/test/resources/phot.png");
+        System.out.println(currentDir.exists());
+        System.out.println(currentDir.canExecute());
+        System.out.println(currentDir.canRead());
+        System.out.println(currentDir.canWrite());
+        System.out.println(currentDir.getFreeSpace());
+        System.out.println(currentDir.getTotalSpace());
+        System.out.println(currentDir.getAbsolutePath());
+        System.out.println(currentDir.getCanonicalPath());
+    }
 
             /*
 

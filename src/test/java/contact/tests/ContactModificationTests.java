@@ -17,7 +17,7 @@ public class ContactModificationTests extends TestBase {
 
         app.goTo().mainPage();
 
-        if (app.contact().all().size() == 0) {
+        if (app.db().contacts().size() == 0) {
             app.goTo().contactPage();
             ContactData contact = new ContactData().withFirstname("new Name " + Math.random()).withLastname("new Lastname " + Math.random()).
                     withAddress("new ADDRESS ADDRESS ADDRESS " + Math.random()).withHome("" + Math.random()).withGroup("[none]");
@@ -30,7 +30,7 @@ public class ContactModificationTests extends TestBase {
     @Test
     public void testContactModification() {
 
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
         ContactData modyfiedContact = before.iterator().next();
         ContactData contact = new ContactData().withId(modyfiedContact.getId()).withFirstname("Modifying Name " + Math.random())
                 .withLastname("Modifying Lastname " + Math.random()).withAddress("Modifying ADDRESS ADDRESS ADDRESS " + Math.random())
@@ -38,7 +38,7 @@ public class ContactModificationTests extends TestBase {
 
         app.contact().modify(modyfiedContact, contact);
 
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
 
         // before.remove(modyfiedContact);
         // before.add(contact);
