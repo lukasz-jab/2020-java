@@ -3,29 +3,54 @@ package contact.contactdata;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 @XStreamAlias("ContactData")
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
     @Expose
+    @Column(name = "firstname")
     String firstname;
     @Expose
+    @Column(name = "lastname")
     String lastname;
     @Expose
+    @Column(name = "address")
+    @Type(type = "text")
     String address;
     @Expose
+    @Column(name = "home")
+    @Type(type = "text")
     String home;
     @Expose
+    @Type(type = "text")
     String work;
     @Expose
-    private String group;
-
     @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int id = Integer.MAX_VALUE;
     @Expose
-    private File photo;
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
+    /*@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"), inverseJoinColums = @JoinColumn(name = "group_id"))
+    Set<Groupdata> groups = new HashSet<GroupData>;
+     public Set<GroupData>getGroups() {
+          return groups;
+     }
+     public Groups getGroups() {
+         return new Groups(groups);
+     }*/
 
     public String getFirstname() {
         return firstname;
@@ -92,11 +117,11 @@ public class ContactData {
     }
 
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 
